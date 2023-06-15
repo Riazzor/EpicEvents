@@ -49,6 +49,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
+    # @property
+    # def is_staff(self):
+    #     return self._is_staff or self.groups.filter(name='manager').exists()
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
@@ -59,7 +63,7 @@ class Customer(models.Model):
     email = models.EmailField(verbose_name="Adresse email", blank=False, max_length=100, unique=True)
     phone_number = PhoneNumberField(verbose_name="Numéro de fixe")
     mobile_number = PhoneNumberField(verbose_name="Numéro de portable")
-    sales_team = models.ForeignKey(
+    sales_member = models.ForeignKey(
         to=User,
         on_delete=models.SET_NULL,
         null=True,
@@ -74,15 +78,19 @@ class Customer(models.Model):
 class Events(models.Model):
     price = models.IntegerField(verbose_name="Prix")
     event_date = models.DateTimeField(verbose_name="Date de l'évènement")
-    client = models.ForeignKey(to=Customer, on_delete=models.CASCADE, related_name="events")
+    customer = models.ForeignKey(to=Customer, on_delete=models.CASCADE, related_name="events")
     date_created = models.DateTimeField(verbose_name="Date de création", auto_now_add=True)
     date_updated = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     manufacturer = models.CharField()
     type = models.IntegerField()
 
+    @property
+    def sales_member(self):
+        return self
+
 
 class Contract(models.Model):
-    sales_team = models.ForeignKey(to=User, on_delete=models.SET_NULL, related_name="contracts", null=True)
+    sales_member = models.ForeignKey(to=User, on_delete=models.SET_NULL, related_name="contracts", null=True)
     customer = models.ForeignKey(to=Customer, on_delete=models.CASCADE, related_name="contracts")
     status = models.BooleanField(verbose_name="Contrat terminé")
     amount = models.FloatField(verbose_name="Montant")
