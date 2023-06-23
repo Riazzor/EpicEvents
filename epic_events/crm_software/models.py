@@ -6,8 +6,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 class UserManager(UserManager):
     """Define a model manager for User model with no username field."""
 
-    # use_in_migrations = True
-
     def _create_user(self, email, password, **extra_fields):
         """Create and save a User with the given email and password."""
         if not email:
@@ -49,10 +47,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
-    # @property
-    # def is_staff(self):
-    #     return self._is_staff or self.groups.filter(name='manager').exists()
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
@@ -70,23 +64,28 @@ class Customer(models.Model):
         related_name="customers",
     )
     company_name = models.CharField(verbose_name="Entreprise", max_length=250)
+    date_created = models.DateTimeField(verbose_name="Date de création", auto_now_add=True)
+    date_updated = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
 
     class Meta:
         verbose_name = 'Customer'
 
 
 class Events(models.Model):
-    price = models.IntegerField(verbose_name="Prix")
+    class EventStatus(models.TextChoices):
+        ON_GOING = "On_Going"
+        FINISHED = "Finished"
     event_date = models.DateTimeField(verbose_name="Date de l'évènement")
     customer = models.ForeignKey(to=Customer, on_delete=models.CASCADE, related_name="events")
     date_created = models.DateTimeField(verbose_name="Date de création", auto_now_add=True)
     date_updated = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
-    manufacturer = models.CharField()
-    type = models.IntegerField()
+    support_member = models.ForeignKey(to=User, on_delete=models.SET_NULL, related_name="events", null=True)
+    event_status = models.CharField(choices=EventStatus.choices, default=EventStatus.ON_GOING)
+    attendees = models.IntegerField()
 
     @property
     def sales_member(self):
-        return self
+        return self.customer.sales_member
 
 
 class Contract(models.Model):
@@ -95,3 +94,5 @@ class Contract(models.Model):
     status = models.BooleanField(verbose_name="Contrat terminé")
     amount = models.FloatField(verbose_name="Montant")
     payment_due = models.DateTimeField(verbose_name="Date de paiement")
+    date_created = models.DateTimeField(verbose_name="Date de création", auto_now_add=True)
+    date_updated = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
