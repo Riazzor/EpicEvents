@@ -1,4 +1,14 @@
-# from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
+
+from . import views
 
 
-urlpatterns = []
+router = routers.SimpleRouter()
+router.register('customer', views.CustomerViewSet)
+router.register('contract', views.ContractViewSet)
+router.register('event', views.EventViewSet)
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
