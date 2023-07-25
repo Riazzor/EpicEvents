@@ -49,6 +49,25 @@ class UserAdmin(UA):
     search_fields = ("first_name", "last_name", "email")
 
 
-admin.site.register(Contract)
-admin.site.register(Customer)
-admin.site.register(Events)
+@admin.register(Contract)
+class ContractAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "sales_member":
+            kwargs["queryset"] = User.objects.filter(groups__name__in=['sales'])
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "sales_member":
+            kwargs["queryset"] = User.objects.filter(groups__name__in=['sales'])
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+@admin.register(Events)
+class EventsAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "support_member":
+            kwargs["queryset"] = User.objects.filter(groups__name__in=["support"])
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
