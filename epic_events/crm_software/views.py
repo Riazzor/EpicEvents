@@ -31,6 +31,17 @@ class ContractViewSet(mx.OrObjectPermissionMixin, CustomModelViewSet):
         'partial_update': ['manager'],
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        customer = self.request.query_params.get('customer', None)
+        sales_member = self.request.query_params.get('sales_member', None)
+        if self.action == 'list':
+            if customer:
+                queryset = queryset.filter(customer__first_name__icontains=customer)
+            if sales_member:
+                queryset = queryset.filter(sales_member__first_name__icontains=sales_member)
+        return queryset
+
 
 class CustomerViewSet(mx.OrObjectPermissionMixin, CustomModelViewSet):
     queryset = models.Customer.objects.all()
@@ -46,6 +57,14 @@ class CustomerViewSet(mx.OrObjectPermissionMixin, CustomModelViewSet):
         'update': ['manager'],
         'partial_update': ['manager'],
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sales_member = self.request.query_params.get('sales_member', None)
+        if self.action == 'list':
+            if sales_member:
+                queryset = queryset.filter(sales_member__first_name__icontains=sales_member)
+        return queryset
 
 
 class EventViewSet(mx.OrObjectPermissionMixin, CustomModelViewSet):
@@ -65,3 +84,14 @@ class EventViewSet(mx.OrObjectPermissionMixin, CustomModelViewSet):
         'update': ['manager'],
         'partial_update': ['manager'],
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        customer = self.request.query_params.get('customer', None)
+        support_member = self.request.query_params.get('support_member', None)
+        if self.action == 'list':
+            if customer:
+                queryset = queryset.filter(customer__first_name__icontains=customer)
+            if support_member:
+                queryset = queryset.filter(sales_member__first_name__icontains=support_member)
+        return queryset
