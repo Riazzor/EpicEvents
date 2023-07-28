@@ -6,3 +6,9 @@ docker_psql:
 		-v pgdata:/var/lib/postgresql/data \
 		--name epic_event_db \
 		postgres
+
+shell:
+	python3 manage.py shell_plus
+
+run:
+	python3 manage.py runserver
