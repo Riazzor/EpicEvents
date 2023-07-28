@@ -1,40 +1,36 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
 from .models import Contract, Customer, Events
 
+User = get_user_model()
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email"]
+
 
 class ContractSerializer(serializers.ModelSerializer):
+    sales_member = UserSerializer(required=True)
+
     class Meta:
         model = Contract
         fields = '__all__'
-        depth = 1
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data["sales_member"] = data["sales_member"]["email"]
-        return data
 
 
 class CustomerSerializer(serializers.ModelSerializer):
+    sales_member = UserSerializer(required=True)
+
     class Meta:
         model = Customer
         fields = '__all__'
-        depth = 1
-
-    # TODO : get from id
-    # serializers for sales and support
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        return data
 
 
 class EventSerializer(serializers.ModelSerializer):
+    support_member = UserSerializer(required=True)
+
     class Meta:
         model = Events
         fields = '__all__'
-        depth = 1
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data["support_member"] = data["support_member"]["email"]
-        return data
