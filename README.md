@@ -51,3 +51,42 @@ python manage.py runserver
 or
 
 make migrations
+
+## Possible endpoints :
+
+Contract:
+
+GET : /contract/  :  list
+GET : /contract/<id>  :  detail
+POST : /contract/  :  create
+PATCH : /contract/<id>  :  update
+
+Customer:
+
+GET : /customer/  :  list
+GET : /customer/<id>  :  detail
+POST : /customer/  :  create
+PATCH : /customer/<id>  :  update
+
+Contract:
+
+GET : /event/  :  list
+GET : /event/<id>  :  detail
+POST : /event/  :  create
+PATCH : /event/<id>  :  update
+
+Specific search is possible using query parameters :
+
+email and last_name for customer, contract and event.
+date_created for contract and event.
+amount for contract.
+
+
+## Permission :
+
+A manager is almighty.
+
+A sales person can create customers, contract, and events.
+
+Sales person can only update their attributed customer, contract or event(if about own customer)
+Support person can only update events of their customers.

@@ -45,7 +45,8 @@ class IsSalesContact(permissions.BasePermission):
         return False
 
     def has_permission(self, request, view):
-        return False
+        # This is an object level permission so we return True because we trust has_object_permission
+        return True
 
 
 class IsSupportContact(permissions.BasePermission):
@@ -58,7 +59,7 @@ class IsSupportContact(permissions.BasePermission):
     def has_object_permission(self, request, view, object):
         if object.support_member == request.user or request.method in permissions.SAFE_METHODS:
             return True
-        return False
 
     def has_permission(self, request, view):
-        return False
+        # This is an object level permission so we return True because we trust has_object_permission
+        return True
