@@ -13,7 +13,7 @@ class OrObjectPermissionMixin:
         if not permitted:
             self.permission_denied(
                 request,
-                message='Permission denied. Ask the manager team for more details.',
+                message="Permission denied. Ask the manager team for more details.",
             )
 
     def check_object_permissions(self, request, obj):
@@ -24,7 +24,7 @@ class OrObjectPermissionMixin:
         if not permitted:
             self.permission_denied(
                 request,
-                message='Permission denied. Ask the manager team for more details.',
+                message="Permission denied. Ask the manager team for more details.",
             )
 
 

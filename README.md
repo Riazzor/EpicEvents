@@ -5,7 +5,7 @@ The users will be the managers and the salers and supporters.
 
 The django admin site is available for the managers team.
 
-## Installation :
+## Installation for local development:
 
 ### Creating virtual environment :
 
@@ -13,10 +13,12 @@ python -m venv /path/to/new/virtual/environment
 
 ### Activating virtual environment :
 
- - Posix : """ source <venv>/bin/activate """
- - Windows : """ <venv>\Scripts\activate.bat """
+    - Posix : """ source <venv>/bin/activate """
+    - Windows : """ <venv>\Scripts\activate.bat """
 
 ### Docker for database :
+
+* the following command should be run from the same folder as the manage.py file. *
 
 We are using docker to host the database : (make sure docker is correctly installed)
 
@@ -44,13 +46,19 @@ or
 
 make migrate
 
+### Create a super user :
+
+python3 manage.py createsuperuser
+
 ## Run the application :
 
 python manage.py runserver
 
 or
 
-make migrations
+make run
+
+Go to the address : http://127.0.0.1:8000/
 
 ## Possible endpoints :
 

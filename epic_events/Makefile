@@ -1,5 +1,5 @@
 docker_psql:
-	docker run -p 5432:5432 -d \
+	docker run --rm -p 5432:5432 -d \
 		-e POSTGRES_PASSWORD=postgres \
 		-e POSTGRES_USER=postgres \
 		-e POSTGRES_DB=epic_event_db \

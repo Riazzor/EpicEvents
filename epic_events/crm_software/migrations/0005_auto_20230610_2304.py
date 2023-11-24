@@ -60,39 +60,39 @@ def forwards_func(apps, schema_editor):
     )
     # User
     user_add_permission, _ = Permission.objects.get_or_create(
-        codename='Can add user', name='add_user', content_type=user_ct
+        name='Can add user', codename='add_user', content_type=user_ct
     )
     user_view_permission, _ = Permission.objects.get_or_create(
-        codename='Can add user', name='add_user', content_type=user_ct
+        name='Can add user', codename='add_user', content_type=user_ct
     )
     user_change_permission, _ = Permission.objects.get_or_create(
-        codename='Can change user', name='change_user', content_type=user_ct
+        name='Can change user', codename='change_user', content_type=user_ct
     )
     # Group
     group_add_permission, _ = Permission.objects.get_or_create(
-        codename='Can add group', name='add_group', content_type=group_ct
+        name='Can add group', codename='add_group', content_type=group_ct
     )
     group_view_permission, _ = Permission.objects.get_or_create(
-        codename='Can view group', name='view_group', content_type=group_ct
+        name='Can view group', codename='view_group', content_type=group_ct
     )
     group_change_permission, _ = Permission.objects.get_or_create(
-        codename='Can change group', name='change_group', content_type=group_ct
+        name='Can change group', codename='change_group', content_type=group_ct
     )
     group_delete_permission, _ = Permission.objects.get_or_create(
-        codename='Can delete group', name='delete_group', content_type=group_ct
+        name='Can delete group', codename='delete_group', content_type=group_ct
     )
     # Permission
     permission_add_permission, _ = Permission.objects.get_or_create(
-        codename='Can add permission', name='add_permission', content_type=permission_ct
+        name='Can add permission', codename='add_permission', content_type=permission_ct
     )
     permission_view_permission, _ = Permission.objects.get_or_create(
-        codename='Can view permission', name='view_permission', content_type=permission_ct
+        name='Can view permission', codename='view_permission', content_type=permission_ct
     )
     permission_change_permission, _ = Permission.objects.get_or_create(
-        codename='Can change permission', name='change_permission', content_type=permission_ct
+        name='Can change permission', codename='change_permission', content_type=permission_ct
     )
     permission_delete_permission, _ = Permission.objects.get_or_create(
-        codename='Can delete permission', name='delete_permission', content_type=permission_ct
+        name='Can delete permission', codename='delete_permission', content_type=permission_ct
     )
 
     # Assigning permissions
